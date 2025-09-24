@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Site do Arraso — Babados e Segredos</title>
+  <meta name="description" content="Site do Arraso — fofocas e segredos quentes, no melhor estilo Burn Book.">
+  <style>
+    :root{
+      --bg: #ffebf5;
+      --card: #fff0f7;
+      --accent: #ff007f;
+      --muted: #5a2c47;
+      --glass: rgba(255,255,255,0.5);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Comic Sans MS", Arial, sans-serif;
+      background: linear-gradient(180deg,#ffb6d9 0%, #ffebf5 100%);
+      color:#2c0f1f;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px 24px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.4), transparent);
+      backdrop-filter:blur(6px);
+      border-bottom:3px dashed #ff007f;
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{
+      width:50px;height:50px;border-radius:8px;
+      background:#ff007f;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;color:white;
+      font-family:Impact, sans-serif;
+      font-size:1.2rem;
+      transform: rotate(-5deg);
+    }
+    h1{
+      font-size:1.3rem;
+      margin:0;
+      font-family:"Impact", sans-serif;
+      letter-spacing:1px;
+    }
+    nav{display:flex;gap:12px;align-items:center}
+    button, .btn{
+      background:var(--accent);
+      border:none;
+      padding:8px 12px;
+      border-radius:8px;
+      color:white;
+      font-weight:600;
+      cursor:pointer;
+      font-family:Arial Black, sans-serif;
+      text-transform:uppercase;
+      box-shadow:2px 2px 0px #2c0f1f;
+    }
+    button:hover{opacity:0.9}
+    .container{max-width:1100px;margin:26px auto;padding:0 18px}
+    .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .search{flex:1;margin-left:12px}
+    .search input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:2px dashed #ff007f;
+      background:white;
+      color:#2c0f1f;
+      font-family:"Comic Sans MS";
+    }
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+    @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:600px){.grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:stretch}}
+    .card{
+      background:var(--card);
+      padding:14px;
+      border-radius:12px;
+      border:2px dashed #ff007f;
+      min-height:140px;
+      display:flex;flex-direction:column;gap:10px;
+      transform:rotate(-1deg);
+    }
+    .thumb{height:120px;border-radius:8px;background:#ffd0e8;display:flex;align-items:center;justify-content:center;color:#5a2c47;font-size:0.9rem;font-style:italic}
+    .meta{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;color:var(--muted)}
+    .tags{display:flex;gap:8px}
+    .tag{background:#ff007f;color:white;padding:4px 8px;border-radius:8px;font-size:0.78rem}
+    .title{font-weight:700;margin:0;font-size:1rem;font-family:"Impact"}
+    .excerpt{color:#5a2c47;font-size:0.92rem}
+    footer{margin:28px 0 60px;color:#5a2c47;text-align:center;font-style:italic}
+
+    /* modal */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal{max-width:800px;width:100%;background:#fff0f7;border-radius:12px;padding:18px;border:2px dashed #ff007f}
+    .modal h2{margin:0 0 8px;font-family:"Impact"}
+    .close{background:#ff007f;border:none;padding:6px 8px;border-radius:8px;color:white;cursor:pointer}
+
+    /* utilities */
+    .muted{color:var(--muted)}
+    .controls{display:flex;gap:8px}
+    .like{background:#ffd0e8;border:2px dashed #ff007f;padding:6px;border-radius:8px;cursor:pointer;font-family:"Comic Sans MS"}
+    .load-more{display:block;margin:18px auto;padding:10px 18px;border-radius:12px;border:2px dashed #ff007f;background:#ffd0e8;color:#2c0f1f;cursor:pointer;font-family:"Comic Sans MS"}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">SA</div>
+      <div>
+        <h1>Site do Arraso</h1>
+        <div class="muted" style="font-size:0.8rem">Segredos, babados e fofocas no estilo Meninas malvadas💋</div>
+      </div>
+    </div>
+    <nav>
+      <button id="newPostBtn">+ Publicar</button>
+      <div style="width:260px">
+        <input id="quickSearch" placeholder="Pesquisar fofoca..." style="width:100%">
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="topbar">
+      <div class="muted">Espalhando os babados mais quentes de Itu</div>
+      <div class="controls">
+        <select id="filter" style="padding:8px;border-radius:8px;background:white;border:2px dashed #ff007f;color:#2c0f1f">
+          <option value="all">Todos</option>
+          <option value="fofoca">Fofoca</option>
+          <option value="crime">Crime</option>
+          <option value="evento">Evento</option>
+        </select>
+      </div>
+    </div>
+
+    <section class="grid" id="posts">
+      <!-- Sem posts iniciais -->
+    </section>
+
+    <button class="load-more" id="loadMore">Carregar mais</button>
+
+    <footer>
+      © <span id="ano"></span> Site do Arraso — versão Livro do Arraso 💋
+    </footer>
+  </main>
+
+  <!-- Modal -->
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h2 id="modalTitle">Título</h2>
+        <button class="close" id="closeModal">Fechar</button>
+      </div>
+      <div id="modalMeta" class="muted" style="margin-bottom:12px">por <strong id="modalAuthor">Anônimo</strong> • <span id="modalDate">agora</span></div>
+      <div id="modalContent" style="line-height:1.6;color:#2c0f1f">Conteúdo da fofoca...</div>
+      <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+        <button class="like" id="likeBtn">Curtir (<span id="likesCount">0</span>)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const posts = [];
+    const postsEl = document.getElementById('posts');
+    const overlay = document.getElementById('overlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalAuthor = document.getElementById('modalAuthor');
+    const modalDate = document.getElementById('modalDate');
+    const modalContent = document.getElementById('modalContent');
+    const likesCount = document.getElementById('likesCount');
+    const ano = document.getElementById('ano'); ano.innerText = new Date().getFullYear();
+
+    function render(list){
+      postsEl.innerHTML='';
+      list.forEach(p=>{
+        const div=document.createElement('article');
+        div.className='card';
+        div.innerHTML=`
+          <div class="thumb">💋 ${p.tag}</div>
+          <div>
+            <div class="meta"><div class="tags"><span class="tag">${p.tag}</span></div><div class="muted">${p.date}</div></div>
+            <h3 class="title">${p.title}</h3>
+            <p class="excerpt">${p.excerpt}</p>
+          </div>
+          <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center">
+            <div class="muted">por ${p.author}</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <button class="like" data-id="${p.id}">❤ ${p.likes}</button>
+              <button class="btn" data-id="${p.id}">Abrir</button>
+            </div>
+          </div>
+        `;
+        postsEl.appendChild(div);
+      })
+    }
+
+    postsEl.addEventListener('click',e=>{
+      const btn=e.target.closest('[data-id]');
+      if(!btn) return;
+      const id=Number(btn.getAttribute('data-id'));
+      const post=posts.find(x=>x.id===id);
+      if(btn.classList.contains('btn')){
+        openPost(post);
+      } else if(btn.classList.contains('like')){
+        post.likes++;
+        render(posts);
+      }
+    });
+
+    function openPost(p){
+      modalTitle.innerText=p.title;
+      modalAuthor.innerText=p.author;
+      modalDate.innerText=p.date;
+      modalContent.innerText=p.content;
+      likesCount.innerText=p.likes;
+      overlay.style.display='flex';
+    }
+
+    document.getElementById('closeModal').addEventListener('click',()=> overlay.style.display='none');
+    overlay.addEventListener('click',e=>{if(e.target===overlay) overlay.style.display='none'});
+
+    document.getElementById('newPostBtn').addEventListener('click',()=>{
+      const title=prompt('Título do babado:');if(!title)return;
+      const excerpt=prompt('Resumo rápido:')||'';
+      const tag=prompt('Categoria (fofoca, crime, evento):','fofoca');
+      posts.unshift({id:Date.now(),title,excerpt,tag,author:'Você',date:new Date().toLocaleDateString('pt-BR'),likes:0,content:excerpt});
+      render(posts);
+    });
+
+    document.getElementById('filter').addEventListener('change', e=>{
+      const val=e.target.value;
+      if(val==='all')render(posts); else render(posts.filter(s=>s.tag===val));
+    });
+
+    document.getElementById('quickSearch').addEventListener('input', e=>{
+      const q=e.target.value.toLowerCase().trim();
+      render(posts.filter(s=>s.title.toLowerCase().includes(q)||s.excerpt.toLowerCase().includes(q)));
+    });
+
+    document.getElementById('loadMore').addEventListener('click',()=> alert('Sem backend ainda — adicione mais fofocas manualmente.'));
+  </script>
+</body>
+</html>
